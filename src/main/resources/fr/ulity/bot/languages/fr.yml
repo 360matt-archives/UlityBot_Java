@@ -1,0 +1,3 @@
+error:
+  noperm: "Vous n'avez pas la permission requise pour utiliser la commande ``%command%`` !"
+  owner_only: "Seul le propriétaire du bot peut utiliser la commande ``%command%`` !"
