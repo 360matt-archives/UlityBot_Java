@@ -93,6 +93,8 @@ public class Lang {
     }
 
     public static class Prepared {
+        public static HashMap<String, String> internalVariable = new HashMap<>();
+
         private final String exp;
         private final HashMap<String, String> vars = new HashMap<>();
         private String prefix = "";
@@ -119,13 +121,13 @@ public class Lang {
             String output = Lang.get(lang, exp);
             for (Map.Entry<String,String> x : vars.entrySet())
                 output = output.replaceAll("%" + x.getKey() + "%", x.getValue());
+            for (Map.Entry<String,String> x : internalVariable.entrySet())
+                output = output.replaceAll("\\{" + x.getKey() + "}", x.getValue());
             return prefix + output + suffix;
         }
 
         public String getOutput () { return getOutput(defaultLang); }
     }
-
-
 
 
 

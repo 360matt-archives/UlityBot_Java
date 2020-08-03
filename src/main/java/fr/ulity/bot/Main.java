@@ -4,7 +4,6 @@ import fr.ulity.bot.api.CommandManager;
 import fr.ulity.bot.api.Config;
 import fr.ulity.bot.api.Lang;
 import fr.ulity.bot.commands.PingCMD;
-import fr.ulity.bot.commands.ReloadCMD;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 
@@ -19,20 +18,19 @@ public class Main {
     public static void main (String[] args) throws LoginException, IOException, URISyntaxException {
         Lang.reload();
 
+        Config langConfig = Lang.langConfigs.get(Lang.defaultLang);
+
+        for (String x : langConfig.singleLayerKeySet("internal_vars"))
+            Lang.Prepared.internalVariable.put(x, langConfig.getString("internal_vars." + x));
+
 
         // register commands
         CommandManager.register(new PingCMD());
-        CommandManager.register(new ReloadCMD());
 
 
         jda = JDABuilder.createDefault(config.getString("bot.token")).build();
-        reload();
-
-    }
-
-    public static void reload () {
-        jda.removeEventListener(new CommandManager());
         jda.addEventListener(new CommandManager());
+
     }
 
 }
