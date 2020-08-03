@@ -5,9 +5,11 @@ import fr.ulity.bot.api.CommandBuilder;
 public class PingCMD extends CommandBuilder {
     public PingCMD() {
         name = "ping";
-        level = Level.OWNER;
-        dm = true;
+        level = Level.USER;
+        dm = false;
         cooldown = 5;
+
+        aliases = new String[]{"latence"};
 
     }
 
