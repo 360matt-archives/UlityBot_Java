@@ -1,6 +1,7 @@
 package fr.ulity.bot.api;
 
 import fr.ulity.bot.Main;
+import fr.ulity.bot.commandCheckers.CheckerDM;
 import fr.ulity.bot.commandCheckers.CheckerLevel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -14,7 +15,8 @@ public class CommandManager extends ListenerAdapter {
     public static HashMap<String, String> aliases = new HashMap<>();
 
     public static Class[] checkers = Arrays.asList(
-            CheckerLevel.class // permissions, simplified
+            CheckerLevel.class, // permissions, simplified
+            CheckerDM.class
 
             // checkers likes: permissions, cooldown, etc
     ).toArray(new Class[0]);
