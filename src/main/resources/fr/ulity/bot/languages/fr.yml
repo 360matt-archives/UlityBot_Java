@@ -1,3 +1,7 @@
 error:
-  noperm: "Vous n'avez pas la permission requise pour utiliser la commande ``%command%`` !"
-  owner_only: "Seul le propriétaire du bot peut utiliser la commande ``%command%`` !"
+  noperm: "{x} Vous n'avez pas la permission requise pour utiliser la commande ``%command%`` !"
+  owner_only: "{x} Seul le propriétaire du bot peut utiliser la commande ``%command%`` !"
+  dm_not_allowed: "{x} Cette commande ne peut pas s'éxécuter en MP"
+internal_vars:
+  x: "<:failed:687719381396094978>"
+  v: "<:success:688789646012055711>"
