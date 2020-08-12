@@ -72,4 +72,7 @@ public class Time {
             }
         });
     }
+
+    public boolean isEmpty () { return (seconds == 0 && milliseconds == 0 && text.equals("")); }
+
 }
