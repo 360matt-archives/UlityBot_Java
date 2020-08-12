@@ -1,6 +1,6 @@
 package fr.ulity.bot.commandCheckers;
 
-import fr.ulity.bot.Main;
+import fr.ulity.bot.MainDiscordApi;
 import fr.ulity.bot.api.CommandBuilder;
 import fr.ulity.bot.api.Lang;
 import net.dv8tion.jda.api.Permission;
@@ -14,7 +14,7 @@ public class CheckerLevel {
             return true;
 
         if (cmd.level.equals(CommandBuilder.Level.OWNER)) {
-            if (Main.config.getList("bot.owners").contains(event.getAuthor().getId()))
+            if (MainDiscordApi.config.getList("bot.owners").contains(event.getAuthor().getId()))
                 return true;
             else {
                 Lang.prepare("error.owner_only")
