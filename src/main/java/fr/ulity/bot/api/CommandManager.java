@@ -1,6 +1,7 @@
 package fr.ulity.bot.api;
 
-import fr.ulity.bot.Main;
+import fr.ulity.bot.MainDiscordApi;
+import fr.ulity.bot.commandCheckers.CheckerCooldow;
 import fr.ulity.bot.commandCheckers.CheckerDM;
 import fr.ulity.bot.commandCheckers.CheckerLevel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -9,17 +10,19 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
     public static HashMap<String, CommandBuilder> commandMap = new HashMap<>();
     public static HashMap<String, String> aliases = new HashMap<>();
 
-    public static Class[] checkers = Arrays.asList(
-            CheckerLevel.class, // permissions, simplified
-            CheckerDM.class
+    public static List<Class> checkers = Arrays.asList(
+        CheckerLevel.class, // permissions, simplified
+                CheckerDM.class, // DM command state
+                CheckerCooldow.class // respect of the cooldown of the command
 
-            // checkers likes: permissions, cooldown, etc
-    ).toArray(new Class[0]);
+        // checkers likes: permissions, cooldown, etc
+    );
 
 
     public static void register (CommandBuilder cmd) {
@@ -28,10 +31,16 @@ public class CommandManager extends ListenerAdapter {
             aliases.put(aliase, cmd.name);
     }
 
+    public static void unregister (CommandBuilder cmd) {
+        commandMap.remove(cmd.name);
+        for (String aliase : cmd.aliases)
+            aliases.remove(aliase);
+    }
+
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        String prefix = Main.config.getString("bot.prefix");
+        String prefix = MainDiscordApi.config.getString("bot.prefix");
         String content = event.getMessage().getContentRaw();
 
         if (content.startsWith(prefix)) {
