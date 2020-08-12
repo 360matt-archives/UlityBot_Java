@@ -2,7 +2,7 @@ package fr.ulity.bot.api;
 
 
 
-import fr.ulity.bot.Main;
+import fr.ulity.bot.MainDiscordApi;
 import fr.ulity.bot.utils.ListingResources;
 import fr.ulity.bot.utils.Text;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 public class Lang {
     public static HashMap<String, Config> langConfigs = new HashMap<>();
-    public static String defaultLang = Main.config.getString("global.lang");
+    public static String defaultLang = MainDiscordApi.config.getString("global.lang");
 
     private enum ReloadExpressions {
         FR("Les fichiers de langue ont été rechargés"),
@@ -36,7 +36,7 @@ public class Lang {
     }
 
     public static void reload () throws IOException, URISyntaxException {
-        defaultLang = Main.config.getString("bot.lang");
+        defaultLang = MainDiscordApi.config.getString("bot.lang");
 
         String path = ("fr/ulity/bot/languages/");
         for (String x : ListingResources.getResourceListing(Lang.class, path)) {
