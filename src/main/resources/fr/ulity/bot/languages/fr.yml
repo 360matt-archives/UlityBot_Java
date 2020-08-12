@@ -1,7 +1,30 @@
+period:
+  years: "années"
+  year: "année"
+  months: "mois"
+  month: "mois"
+  days: "jours"
+  day: "jour"
+  hours: "heures"
+  hour: "heure"
+  minutes: "minutes"
+  minute: "minute"
+  seconds: "secondes"
+  second: "seconde"
+  separator: ", "
+internal:
+  update_failed: "Impossible de mettre à jour le bot via Github ! Merci de le mettre à jour par vous même !"
+  updated: "La dernière build vient d'être téléchargée:  bot.jar"
 error:
-  noperm: "{x} Vous n'avez pas la permission requise pour utiliser la commande ``%command%`` !"
-  owner_only: "{x} Seul le propriétaire du bot peut utiliser la commande ``%command%`` !"
-  dm_not_allowed: "{x} Cette commande ne peut pas s'éxécuter en MP"
+  noperm: "{x} | Vous n'avez pas la permission requise pour utiliser la commande ``%command%`` !"
+  owner_only: "{x} | Seul le propriétaire du bot peut utiliser la commande ``%command%`` !"
+  dm_not_allowed: "{x} | Cette commande ne peut pas s'éxécuter en MP"
+  cooldown_not_ended: "{x} | Vous devez patienter ``%left%`` pour utiliser la commande ``%command%`` !"
 internal_vars:
   x: "<:failed:687719381396094978>"
   v: "<:success:688789646012055711>"
+commands:
+  ping:
+    well: "La latence est de ``%ping%ms``, c'est correct !"
+    fair: "La latence est de ``%ping%ms``, c'est moyen !"
+    bad: "La latence est de ``%ping%ms``, c'est nul à chier !"
