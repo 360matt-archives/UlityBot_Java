@@ -8,11 +8,10 @@ import fr.ulity.bot.utils.Text;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,8 +68,9 @@ public class Lang {
             }
         }
 
-        for (String x : langConfigs.get(defaultLang).singleLayerKeySet("internal_vars"))
-            Lang.Prepared.internalVariable.put(x, langConfigs.get(defaultLang).getString("internal_vars." + x));
+        if (langConfigs.keySet().contains(defaultLang) && langConfigs.get(defaultLang).keySet().contains("internal_vars"))
+            for (String x : langConfigs.get(defaultLang).singleLayerKeySet("internal_vars"))
+                Lang.Prepared.internalVariable.put(x, langConfigs.get(defaultLang).getString("internal_vars." + x));
 
         try {
             defaultLang = MainDiscordApi.config.getString("bot.lang");
@@ -84,6 +84,14 @@ public class Lang {
 
 
     private static Config getOptimalLang (String arg, String exp) {
+        File checkedLangFile = new File(MainDiscordApi.path + "/languages/" + arg + ".yml");
+        if (checkedLangFile.exists()) {
+            String nameWithoutExtension = checkedLangFile.getName().replaceAll(".yml", "");
+            if (!langConfigs.keySet().contains(nameWithoutExtension))
+                langConfigs.put(nameWithoutExtension, new Config(nameWithoutExtension, "languages/"));
+        }
+
+
         Config optimalConfig = null;
         boolean noChange = false;
 
