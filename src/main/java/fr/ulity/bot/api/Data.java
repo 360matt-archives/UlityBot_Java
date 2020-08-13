@@ -1,25 +1,25 @@
 package fr.ulity.bot.api;
 
 import de.leonhard.storage.Json;
+import fr.ulity.bot.MainDiscordApi;
 
 import java.io.File;
-import java.nio.file.Paths;
 
 public class Data extends Json {
     public Data () {
-        super("data", String.valueOf(Paths.get("")));
+        super(new File(MainDiscordApi.path.getPath() + "/data/data.json"));
         new DefaultConfig();
     }
 
     public Data (String name) {
-        super(name, String.valueOf(Paths.get("")));
+        super(new File(MainDiscordApi.path.getPath() + "/" + name + ".json"));
 
         if (name.equals("data"))
             new DefaultConfig();
     }
 
     public Data (String name, String path) {
-        super(name, Paths.get("") + path);
+        super(new File(MainDiscordApi.path.getPath() + "/" + path + "/" + name + ".json"));
 
         if (name.equals("data") && path.equals(""))
             new DefaultConfig();

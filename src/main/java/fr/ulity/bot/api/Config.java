@@ -1,25 +1,25 @@
 package fr.ulity.bot.api;
 
 import de.leonhard.storage.Yaml;
+import fr.ulity.bot.MainDiscordApi;
 
 import java.io.File;
-import java.nio.file.Paths;
 
 public class Config extends Yaml {
     public Config() {
-        super("config", String.valueOf(Paths.get("")));
+        super(new File(MainDiscordApi.path.getPath() + "/config.yml"));
         new DefaultConfig();
     }
 
     public Config(String name) {
-        super(name, String.valueOf(Paths.get("")));
+        super(new File(MainDiscordApi.path.getPath() + "/" + name + ".yml"));
 
         if (name.equals("config"))
             new DefaultConfig();
     }
 
     public Config(String name, String path) {
-        super(name, Paths.get("") + path);
+        super(new File(MainDiscordApi.path.getPath() + "/" + path + "/" + name + ".yml"));
 
         if (name.equals("config") && path.equals(""))
             new DefaultConfig();
