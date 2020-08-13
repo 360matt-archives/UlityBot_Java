@@ -9,17 +9,22 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lang {
     public static HashMap<String, Config> langConfigs = new HashMap<>();
-    public static String defaultLang = MainDiscordApi.config.getString("global.lang");
+    public static String defaultLang = MainDiscordApi.config.getString("bot.lang");
+    public static List<URL> langTemplate = new ArrayList<>();
+    public static List<URL> extraLangTemplate = new ArrayList<>();
 
     private enum ReloadExpressions {
         FR("Les fichiers de langue ont été rechargés"),
@@ -35,27 +40,40 @@ public class Lang {
         }
     }
 
-    public static void reload () throws IOException, URISyntaxException {
-        defaultLang = MainDiscordApi.config.getString("bot.lang");
 
+    public static void cacheLangTemplate () throws IOException, URISyntaxException {
         String path = ("fr/ulity/bot/languages/");
         for (String x : ListingResources.getResourceListing(Lang.class, path)) {
             Matcher m = Pattern.compile("(.*).yml").matcher(x);
             if (m.find()) {
-                Config configLooped = new Config(m.group(1), "languages/");
-
                 URL urlLooped = Lang.class.getClassLoader().getResource(path + x);
+                if (urlLooped != null)
+                    langTemplate.add(urlLooped);
+            }
+        }
+    }
 
-                if (urlLooped != null) {
-                    InputStream input = new URL(urlLooped.toString()).openStream();
-                    configLooped.addDefaultsFromInputStream(input);
+    public static void reload () throws IOException, URISyntaxException {
+        Pattern p = Pattern.compile("([\\w-]+)\\.yml$");
 
-                    langConfigs.put(m.group(1), configLooped);
-                }
+        if (langTemplate.size() == 0)
+            cacheLangTemplate();
+
+        for (URL x : langTemplate) {
+            Matcher m = p.matcher(x.getFile());
+
+            if (m.find()) {
+                Config configLooped = new Config(m.group(1), "languages/");
+                configLooped.addDefaultsFromInputStream(x.openStream());
+                langConfigs.put(m.group(1), configLooped);
             }
         }
 
+        for (String x : langConfigs.get(defaultLang).singleLayerKeySet("internal_vars"))
+            Lang.Prepared.internalVariable.put(x, langConfigs.get(defaultLang).getString("internal_vars." + x));
+
         try {
+            defaultLang = MainDiscordApi.config.getString("bot.lang");
             System.out.println(ReloadExpressions.valueOf(defaultLang.toUpperCase()).getString());
         } catch (Exception e) {
             System.out.println(ReloadExpressions.EN.getString());
