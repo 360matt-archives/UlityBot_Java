@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Lang {
     public static HashMap<String, Config> langConfigs = new HashMap<>();
@@ -58,7 +60,8 @@ public class Lang {
         if (langTemplate.size() == 0)
             cacheLangTemplate();
 
-        for (URL x : langTemplate) {
+        List<URL> allTemplates = Stream.concat(langTemplate.stream(), extraLangTemplate.stream()).collect(Collectors.toList());
+        for (URL x : allTemplates) {
             Matcher m = p.matcher(x.getFile());
 
             if (m.find()) {
