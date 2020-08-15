@@ -1,18 +1,16 @@
 package fr.ulity.bot.api;
 
-import de.leonhard.storage.Yaml;
 
 import java.util.Arrays;
 
-public class DefaultConfig extends Yaml {
-    public DefaultConfig () {
-        super("config", "");
+public class DefaultConfig {
+    public static void make (Config config) {
 
-        setHeader("  -->   UlityBot, in Java", "  by 360matt");
-        setDefault("bot.lang", "fr");
-        setDefault("bot.token", "super secret");
-        setDefault("bot.prefix", "u!");
-        setDefault("bot.owners", Arrays.asList("X-id-X", "X-id-X"));
+        config.setHeader("  -->   UlityBot, in Java", "  by 360matt");
+        config.setDefault("bot.lang", "fr");
+        config.setDefault("bot.token", "super secret");
+        config.setDefault("bot.prefix", "u!");
+        config.setDefault("bot.owners", Arrays.asList("X-id-X", "X-id-X"));
 
 
     }
