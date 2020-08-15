@@ -13,6 +13,7 @@ import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 public class MainDiscordApi {
     public static Config config;
@@ -46,5 +47,9 @@ public class MainDiscordApi {
     public static void unregisterChecker (Class checker) { CommandManager.checkers.remove(checker); }
     public static void registerCommand (CommandBuilder cmd) { CommandManager.register(cmd); }
     public static void unregisterCommand (CommandBuilder cmd) { CommandManager.unregister(cmd); }
+
+    public static void addLangTemplate (URL template) { Lang.extraLangTemplate.add(template); }
+    public static void removeLangTemplate (URL template) { Lang.extraLangTemplate.remove(template); }
+    public static void reloadLang () throws IOException, URISyntaxException { Lang.reload(); }
 
 }
